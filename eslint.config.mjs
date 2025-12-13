@@ -32,6 +32,7 @@ export default tseslint.config(
       'no-console': 'off',
       'object-curly-spacing': 'off',
       "prettier/prettier": 'off',
+      "@typescript-eslint/no-unsafe-return": "off"
     },
   },
 );

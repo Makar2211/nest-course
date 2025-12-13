@@ -1,10 +1,47 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, NotFoundException, Param, Patch, Post, Put, Query, Req, Res } from '@nestjs/common';
+import type { Request, Response } from 'express';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskService } from './task.service';
 
-@Controller('task')
+@Controller({
+  path: 'task',
+  host: ['localhost', 'myapp.com']
+})
 export class TaskController {
   constructor(private readonly taskService: TaskService) { }
+
+  @Get('get-param/:id')
+  getParam(@Param('id') id: number) {
+    return { id };
+  }
+
+  @Get('get-query')
+  getQuery(@Query() query: any) {
+    return query;
+  }
+
+  @Get('get-headers')
+  getHeaders(@Headers() header: any) {
+    return header;
+  }
+
+  @Get('get-request')
+  getRequest(@Req() req: Request) {
+    return {
+      method: req.method,
+      url: req.url,
+      headers: req.headers,
+      query: req.query,
+      params: req.params
+    };
+  }
+
+
+
+  @Get('get-response')
+  getResponse(@Res() res: Response) {
+    return res.status(200).send('Response from get-response endpoint');
+  }
 
   @Get()
   findAll() {
