@@ -32,7 +32,10 @@ export default tseslint.config(
       'no-console': 'off',
       'object-curly-spacing': 'off',
       "prettier/prettier": 'off',
-      "@typescript-eslint/no-unsafe-return": "off"
+      "@typescript-eslint/no-unsafe-return": 'off',
+      "@typescript-eslint/require-await": "off",
+      "@typescript-eslint/no-misused-promises": "off",
+      "@typescript-eslint/no-unsafe-assignment": 
     },
   },
 );

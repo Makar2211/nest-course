@@ -1,0 +1,23 @@
+
+services:
+  postgres:
+    container_name: postgres-nest-course
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - nest-course_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - nestjs-course
+    restart: always
+
+
+volumes:
+  nest-course_postgres_data:
+    name: nest-course_postgres_data
+networks:
+  nestjs-course:
+    driver: bridge

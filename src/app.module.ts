@@ -1,10 +1,19 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { ActorModule } from './actor/actor.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TaskModule } from './task/task.module';
+import { MovieModule } from './movie/movie.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
-  imports: [TaskModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+      // load: [configuration],
+    }), PrismaModule, ActorModule, ReviewModule, MovieModule],
   controllers: [AppController],
   providers: [AppService],
 })
