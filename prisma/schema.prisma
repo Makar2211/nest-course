@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Movie {
+  id String @id @default(uuid())
+
+  title       String       @unique
+  description String?
+  releaseYear Int?         @map("release_year")
+  rating      Float?       @default(0.0)
+  isAvailable Boolean      @default(false) @map("is_available")
+  genre       Genre        @default(ACTION)
+  posters     MoviePoster? @relation("MoviePoster", fields: [posterId], references: [id])
+  posterId    String?      @unique @map("poster_id")
+  reviews     Review[]
+  actors      Actor[]      @relation("ActorMovies")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([releaseYear, title])
+  @@map("movies")
+}
+
+model MoviePoster {
+  id String @id @default(uuid())
+
+  url   String
+  movie Movie? @relation("MoviePoster")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  movieId   String?  @map("movie_id")
+
+  @@map("movie_posters")
+}
+
+model Review {
+  id String @id @default(uuid())
+
+  text    String
+  raiting Decimal @default(0.0)
+  movie   Movie   @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  movieId String  @map("movie_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("reviews")
+}
+
+model Actor {
+  id String @id @default(uuid())
+
+  name String @unique
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  movies    Movie[]  @relation("ActorMovies")
+
+  @@map("actors")
+}
+
+enum Genre {
+  ACTION
+  COMEDY
+  DRAMA
+  HORROR
+  ROMANCE
+  SCIFI
+  FANTASY
+  THRILLER
+  DOCUMENTARY
+
+  @@map("genre_enum")
+}
