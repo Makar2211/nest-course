@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, UseGuards, UsePipes } from '@nestjs/common';
 import { AppService } from './app.service';
+import { UserAgent } from './common/decorators/user-agent.decorator';
 import { AuthGuard } from './common/guards/auth.guard';
 import { StringToLowercase } from './common/pipes/string-to-lowercase.pipe';
 
@@ -15,7 +16,7 @@ export class AppController {
 
   @UseGuards(AuthGuard)
   @Get('me')
-  getProfile() {
-    return 'This is the profile page';
+  getProfile(@UserAgent() userAgent: string) {
+    return `This is the profile page. Your user agent is: ${userAgent}`;
   }
 }
