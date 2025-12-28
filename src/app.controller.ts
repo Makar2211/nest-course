@@ -1,9 +1,12 @@
 import { Body, Controller, Get, Post, UseGuards, UsePipes } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 import { UserAgent } from './common/decorators/user-agent.decorator';
 import { AuthGuard } from './common/guards/auth.guard';
 import { StringToLowercase } from './common/pipes/string-to-lowercase.pipe';
 
+
+@ApiTags('App')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) { }
